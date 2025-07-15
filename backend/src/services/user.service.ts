@@ -1,17 +1,40 @@
-import { IUser ,UserModel} from "../models/models.user";
+import { IUser, UserModel } from "../models/models.user";
 import ApiError from "../utils/errors/ApiError";
+import { IPrompt, PromptModel } from "../models/models.prompt";
+import jwt from "jsonwebtoken";
+
 
 export default class UserService {
 
-  async createUser(userData: IUser): Promise<IUser> {
-    const existing = await UserModel.findById(userData._id);
+  async register(userData: Omit<IUser, "_id">): Promise<{ token: string; user: IUser }> {
+    const existing = await UserModel.findOne({ name: userData.name, phone: userData.phone });
     if (existing) {
-      throw new ApiError(400, "User with this ID already exists.");
+      throw new ApiError(400, "User already exists with this name and phone number");
     }
-    const newUser = new UserModel(userData);
+  
+    const newUser = new UserModel({
+      _id: crypto.randomUUID(),
+      ...userData,
+    });
+  
     await newUser.save();
-    return newUser.toObject();
+  
+    const token = jwt.sign({ userId: newUser._id },  process.env.JWT_SECRET!, { expiresIn: "7d" });
+    return { token, user: newUser.toObject() };
   }
+  
+
+  async login(name: string, phone: string): Promise<{ token: string; user: IUser }> {
+    const user = await UserModel.findOne({ name, phone });
+    if (!user) {
+      throw new ApiError(404, "User not found with this name and phone number");
+    }
+
+    const token = jwt.sign({ userId: user._id },  process.env.JWT_SECRET!, { expiresIn: "7d" });
+
+    return { token, user: user.toObject() };
+  }
+
 
   async getAllUsers(): Promise<IUser[]> {
     const users = await UserModel.find();
@@ -40,4 +63,5 @@ export default class UserService {
       throw new ApiError(404, "User not found for deletion.");
     }
   }
+
 }

@@ -1,4 +1,5 @@
 import { ISubCategory, SubCategoryModel } from "../models/models.subCategory";
+import { CategoryModel } from "../models/models.category"; 
 import ApiError from "../utils/errors/ApiError";
 
 export default class SubCategoryService {
@@ -8,6 +9,11 @@ export default class SubCategoryService {
       throw new ApiError(400, "SubCategory with this name already exists.");
     }
 
+    const categoryExists = await CategoryModel.findById(data.category_id);
+    if (!categoryExists) {
+      throw new ApiError(404, "The specified category does not exist.");
+    }
+  
     const newSubCategory = new SubCategoryModel(data);
     await newSubCategory.save();
     return newSubCategory.toObject();
@@ -39,5 +45,13 @@ export default class SubCategoryService {
     if (!deleted) {
       throw new ApiError(404, "SubCategory not found for deletion.");
     }
+  }
+
+  async getSubCategoriesByCategoryId(categoryId: string): Promise<ISubCategory[]> {
+    const subCategories = await SubCategoryModel.find({ categoryId });
+    if (!subCategories || subCategories.length === 0) {
+      throw new ApiError(404, "No sub-categories found for this category.");
+    }
+    return subCategories.map(sub => sub.toObject());
   }
 }

@@ -1,12 +1,12 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types} from "mongoose";
 
 export interface ICategory {
-  _id: string;
+  _id?: Types.ObjectId;
   name: string;
 }
 
 const categorySchema = new Schema<ICategory>({
-  _id: { type: String, required: true },
+  // _id: { type: String, required: true },
   name: { type: String, required: true },
 });
 
