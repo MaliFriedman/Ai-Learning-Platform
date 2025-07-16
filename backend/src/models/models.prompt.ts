@@ -19,6 +19,15 @@ const promptSchema = new Schema<IPrompt>({
   prompt: { type: String, required: true },
   response: { type: String, required: true },
   created_at: { type: Date, default: Date.now },
-});
+},
+{
+  toJSON: {
+    transform: (_doc, ret: Partial<IPrompt> & { __v?: number }) => {
+      delete ret.__v;
+      return ret;
+    },
+  },
+}
+);
 
 export const PromptModel = model<IPrompt>("Prompt", promptSchema);

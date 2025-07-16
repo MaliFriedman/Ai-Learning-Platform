@@ -42,7 +42,7 @@ export const updateSubCategory = async (req: Request, res: Response, next: NextF
 export const deleteSubCategory = async (req: Request, res: Response, next: NextFunction) => {
   try {
     await subCategoryService.deleteSubCategory(req.params.id);
-    res.status(204).send();
+    res.status(200).json({ message: "Sub category deleted successfully" });
   } catch (err) {
     next(err);
   }
@@ -50,7 +50,7 @@ export const deleteSubCategory = async (req: Request, res: Response, next: NextF
 
 export const getSubCategoriesByCategoryId = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await subCategoryService.getSubCategoriesByCategoryId(req.params.categoryId);
+    const result = await subCategoryService.getSubCategoriesByCategoryId(req.params.id);
     res.json(result);
   } catch (err) {
     next(err);

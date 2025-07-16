@@ -3,13 +3,13 @@ import mongoose from "mongoose";
 import ApiError from "../utils/errors/ApiError";
 
 export const validatePrompt = (req: Request, res: Response, next: NextFunction) => {
-  const { prompt, userId, category_id, sub_category_id } = req.body;
+  const { prompt, user_id, category_id, sub_category_id } = req.body;
 
   if (!prompt || typeof prompt !== "string" || prompt.trim() === "") {
     return next(new ApiError(400, "Prompt text is required."));
   }
 
-  if (!userId || typeof userId !== "string" && ! /^\d{5,15}$/.test(userId.trim())) {
+  if (!user_id || typeof user_id !== "string" && ! /^\d{5,15}$/.test(user_id.trim())) {
     return next(new ApiError(400, "Valid userId is required."));
   }
 

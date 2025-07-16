@@ -15,3 +15,5 @@ router.put("/:id", authenticateToken, isAdmin, validateId, updateUser);
 router.delete("/:id", authenticateToken, isAdmin, validateId, deleteUser);
 
 export default router;
+
+

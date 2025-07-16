@@ -6,23 +6,35 @@ import jwt from "jsonwebtoken";
 
 export default class UserService {
 
-  async register(userData: Omit<IUser, "_id">): Promise<{ token: string; user: IUser }> {
-    const existing = await UserModel.findOne({ name: userData.name, phone: userData.phone });
+  async register(userData: { id: string; name: string; phone: string }): Promise<{ token: string; user: IUser }> {
+
+    const existing = await UserModel.findOne({ _id: userData.id, phone: userData.phone });
     if (existing) {
       throw new ApiError(400, "User already exists with this name and phone number");
     }
-  
+
     const newUser = new UserModel({
-      _id: crypto.randomUUID(),
-      ...userData,
+      _id: userData.id,
+      name: userData.name,
+      phone: userData.phone,
     });
-  
+
+
     await newUser.save();
-  
-    const token = jwt.sign({ userId: newUser._id },  process.env.JWT_SECRET!, { expiresIn: "7d" });
+
+    const token = jwt.sign(
+      {
+        userId: newUser._id,
+        name: newUser.name,
+        phone: newUser.phone,
+      },
+      process.env.JWT_SECRET!,
+      { expiresIn: "7d" }
+    );
+
     return { token, user: newUser.toObject() };
   }
-  
+
 
   async login(name: string, phone: string): Promise<{ token: string; user: IUser }> {
     const user = await UserModel.findOne({ name, phone });
@@ -30,8 +42,16 @@ export default class UserService {
       throw new ApiError(404, "User not found with this name and phone number");
     }
 
-    const token = jwt.sign({ userId: user._id },  process.env.JWT_SECRET!, { expiresIn: "7d" });
-
+    const token = jwt.sign(
+      {
+        userId: user._id,
+        name: user.name,
+        phone: user.phone,
+      },
+      process.env.JWT_SECRET!,
+      { expiresIn: "7d" }
+    );
+    
     return { token, user: user.toObject() };
   }
 

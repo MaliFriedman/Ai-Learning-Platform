@@ -69,7 +69,7 @@ export const updatePrompt = async (req: Request, res: Response, next: NextFuncti
 export const deletePrompt = async (req: Request, res: Response, next: NextFunction) => {
   try {
     await promptService.deletePrompt(req.params.id);
-    res.status(204).send();
+    res.status(200).json({ message: "Prompt deleted successfully" });
   } catch (err) {
     next(err);
   }

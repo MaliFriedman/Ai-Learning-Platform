@@ -48,7 +48,7 @@ export default class SubCategoryService {
   }
 
   async getSubCategoriesByCategoryId(categoryId: string): Promise<ISubCategory[]> {
-    const subCategories = await SubCategoryModel.find({ categoryId });
+    const subCategories = await SubCategoryModel.find({ category_id: categoryId });
     if (!subCategories || subCategories.length === 0) {
       throw new ApiError(404, "No sub-categories found for this category.");
     }
