@@ -28,3 +28,12 @@ dist-ssr
 *.log
 *.tsbuildinfo
 .vscode
+# React + Vite
+.vite/
+*.log
+*.lock
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
