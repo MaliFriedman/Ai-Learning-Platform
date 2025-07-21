@@ -35,7 +35,6 @@ export default function AdminDashboardPage() {
       {/* Header */}
       <header className="h-20 px-10 flex items-center justify-between bg-white shadow-md border-b border-gray-200">
         <div className="flex items-center gap-4">
-          <img src="/logo.svg" alt="Logo" className="w-10 h-10" />
           <h1 className="text-2xl font-semibold text-yellow-600 tracking-tight">
             AI Admin Panel
           </h1>

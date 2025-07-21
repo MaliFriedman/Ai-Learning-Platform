@@ -67,26 +67,28 @@ The API is documented using **Swagger**, including schemas, authentication heade
 git clone https://github.com/MaliFriedman/Ai-Learning-Platform.git
 cd backend
 npm install
+```
 
 Create a .env file in the backend directory with the following:
-
+```bash
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/ai-learning
 OPENAI_API_KEY=your_openai_api_key_here
 JWT_SECRET=your_jwt_secret_here
 ADMIN_NAME=AdminUser
 ADMIN_PHONE=0500000000
-
+```
 To run locally:
 
+```bash
 npm run dev
-
+```
 💻 Frontend Setup
-
+```bash
 cd frontend
 npm install
 npm run dev
-
+```
 Make sure your backend is running at the same time.
 
 🐳 Docker Support
@@ -96,15 +98,19 @@ To run the full stack in Docker:
 
 backend/.env
 
+```bash
 PORT=5000
 MONGO_URI=mongodb://mongo:27017/ai-learning
 JWT_SECRET=your_jwt_secret
 OPENAI_API_KEY=your_openai_api_key
+```
 
 
 2. Build & Start Containers
 
+```bash
 docker-compose up --build
+```
 
 This will start:
 
@@ -113,11 +119,11 @@ Backend on port 3000
 Frontend on port 5173
 
 Or use the backend-only Dockerfile:
-
+```bash
 cd backend
 docker build -t ai-learning-backend .
 docker run -p 5000:5000 --env-file .env ai-learning-backend
-
+```
 
 🔑 Authentication Flow
 On registration/login, a JWT is returned.

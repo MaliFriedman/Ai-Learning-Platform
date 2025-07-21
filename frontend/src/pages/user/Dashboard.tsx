@@ -13,27 +13,25 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-100 to-white">
       {/* Top Bar */}
-      <header className="h-20 flex items-center justify-between bg-white shadow px-6 py-4">
-        <div className="flex items-center gap-3">
-          <img src="/logo.svg" alt="AI Learning Logo" className="w-10 h-10" />
-          <span className="text-xl font-bold text-blue-700">AI Learning</span>
-        </div>
+<header className="h-20 flex items-center justify-between bg-white shadow px-6 py-4">
+  <div className="text-xl font-bold text-blue-700">AI Learning</div>
 
-        <div className="flex items-center gap-4">
-          {user && (
-            <span className="text-gray-700 font-medium hidden sm:block">
-              Hello, <span className="text-blue-700 font-semibold">{user.name}</span>
-            </span>
-          )}
+  <div className="flex items-center gap-4">
+    {user && (
+      <span className="text-gray-700 font-medium hidden sm:block">
+        Hello, <span className="text-blue-700 font-semibold">{user.name}</span>
+      </span>
+    )}
 
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition"
-          >
-            Logout
-          </button>
-        </div>
-      </header>
+    <button
+      onClick={handleLogout}
+      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition"
+    >
+      Logout
+    </button>
+  </div>
+</header>
+
 
       {/* Main Content */}
       <div className="flex-grow flex items-center justify-center">
