@@ -134,7 +134,7 @@ All protected endpoints require Authorization: Bearer <token>.
 
 ## 📁 Project Structure
 ### Backend
-
+```
 backend/
 │
 ├── controllers/
@@ -148,8 +148,9 @@ backend/
 ├── app.ts 
 ├── server.ts 
 └── .env.example 
-
+```
 ### Frontend
+```
 frontend/
 │
 ├── src/
@@ -165,7 +166,7 @@ frontend/
 ├── public/ 
 ├── tailwind.config.ts
 └── vite.config.ts 
-
+```
 📊 Admin Dashboard
 Admins can:
 
