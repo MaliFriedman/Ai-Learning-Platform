@@ -137,34 +137,34 @@ All protected endpoints require Authorization: Bearer <token>.
 
 backend/
 │
-├── controllers/ # Route logic handlers
-├── middlewares/ # Auth, error, validation logic
-├── models/ # Mongoose schemas
-├── routes/ # Express routes
-├── services/ # Business logic
-├── utils/ # Helper functions
-├── config/ # DB and server configs
-├── swagger/ # Swagger documentation setup
-├── app.ts # Express app config
-├── server.ts # App entry point
-└── .env.example # Sample environment variables
+├── controllers/
+├── middlewares/
+├── models/
+├── routes/
+├── services/
+├── utils/ 
+├── config/ 
+├── swagger/
+├── app.ts 
+├── server.ts 
+└── .env.example 
 
 ### Frontend
 frontend/
 │
 ├── src/
-│ ├── api/ # Axios requests
-│ ├── components/ # Reusable UI components
-│ ├── pages/ # Views (e.g., Login, Register, Dashboard)
-│ ├── store/ # Zustand stores
-│ ├── types/ # TypeScript interfaces
-│ ├── utils/ # Helpers (e.g., axios config)
-│ ├── App.tsx # Root component
-│ └── main.tsx # Entry point
+│ ├── api/
+│ ├── components/
+│ ├── pages/ 
+│ ├── store/
+│ ├── types/ 
+│ ├── utils/ 
+│ ├── App.tsx 
+│ └── main.tsx 
 │
-├── public/ # Static files
-├── tailwind.config.ts # Tailwind config
-└── vite.config.ts # Vite config
+├── public/ 
+├── tailwind.config.ts
+└── vite.config.ts 
 
 📊 Admin Dashboard
 Admins can:
