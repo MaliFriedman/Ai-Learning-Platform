@@ -7,7 +7,6 @@ export interface ISubCategory {
 }
 
 const subCategorySchema = new Schema<ISubCategory>({
-  // _id: { type: String, required: true },
   name: { type: String, required: true },
   category_id: { type: Schema.Types.ObjectId , required: true, ref: "Category" },
 },

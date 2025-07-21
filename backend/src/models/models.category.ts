@@ -6,7 +6,6 @@ export interface ICategory {
 }
 
 const categorySchema = new Schema<ICategory>({
-  // _id: { type: String, required: true },
   name: { type: String, required: true },
 },
 {

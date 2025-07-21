@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    container_name: ai-learning-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai-learning-backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongo:27017/ai-learning
+      - OPENAI_API_KEY=your_openai_api_key_here
+      - JWT_SECRET=your_jwt_secret_here
+      - ADMIN_NAME=AdminUser
+      - ADMIN_PHONE=0500000000
+
+volumes:
+  mongo-data:

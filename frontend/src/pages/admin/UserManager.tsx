@@ -8,7 +8,6 @@ type User = {
     _id: string;
     name: string;
     phone: string;
-    role?: "admin" | "user";
     isAdmin?: boolean;
 };
 
@@ -93,7 +92,6 @@ export default function UserManager() {
 
                     <p className="text-sm text-gray-500">
 
-                        {/* Admin rights: {user.isAdmin ? "Yes" : "No"} */}
                     </p>
 
                     {isAdmin && (

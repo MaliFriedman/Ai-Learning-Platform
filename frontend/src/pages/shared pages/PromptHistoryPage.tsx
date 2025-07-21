@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useUserStore } from "../stores/useUserStore";
-import { usePromptStore } from "../stores/usePromptStore";
-import type { Prompt } from "../types/prompt";
+import { useUserStore } from "../../stores/useUserStore";
+import { usePromptStore } from "../../stores/usePromptStore";
+import type { Prompt } from "../../types/prompt";
 import { Trash2, RefreshCw, Pencil } from "lucide-react";
 
 export default function PromptHistoryPage() {
@@ -28,15 +28,15 @@ export default function PromptHistoryPage() {
     }
   }, [routeUserId, user]);
 
-  const reloadForPrompt = async (userId: string) => {        // ✅ CHANGED
+  const reloadForPrompt = async (userId: string) => {        
     if (userId) {
       await loadPromptsByUserId(userId);
     }
   };
 
-  const handleRegenerate = async (prompt: Prompt) => {        // ✅ CHANGED
+  const handleRegenerate = async (prompt: Prompt) => {     
     await regeneratePrompt(prompt._id);
-    await reloadForPrompt(prompt.user_id);                   // ✅ CHANGED
+    await reloadForPrompt(prompt.user_id);                  
   };
 
   const handleEdit = (prompt: Prompt) => {
@@ -44,8 +44,7 @@ export default function PromptHistoryPage() {
     setEditedText(prompt.prompt);
   };
 
-  const handleSave = async (prompt: Prompt) => {              // ✅ CHANGED
-    // await updatePrompt(prompt._id, editedText);
+  const handleSave = async (prompt: Prompt) => {              
     await updatePrompt(
       prompt._id,
       editedText,
@@ -54,12 +53,12 @@ export default function PromptHistoryPage() {
     );
 
     setEditPromptId(null);
-    await reloadForPrompt(prompt.user_id);                   // ✅ CHANGED
+    await reloadForPrompt(prompt.user_id);                  
   };
 
-  const handleDelete = async (prompt: Prompt) => {            // ✅ CHANGED
+  const handleDelete = async (prompt: Prompt) => {            
     await deletePrompt(prompt._id);
-    await reloadForPrompt(prompt.user_id);                   // ✅ CHANGED
+    await reloadForPrompt(prompt.user_id);                 
   };
 
   return (
@@ -92,7 +91,7 @@ export default function PromptHistoryPage() {
                       />
                       <div className="flex gap-2">
                         <button
-                          onClick={() => handleSave(prompt)}        // ✅ CHANGED
+                          onClick={() => handleSave(prompt)}       
                           className="px-4 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600"
                         >
                           Save
@@ -129,7 +128,7 @@ export default function PromptHistoryPage() {
 
                 <div className="flex flex-col gap-2 ml-4 shrink-0">
                   <button
-                    onClick={() => handleRegenerate(prompt)}       // ✅ CHANGED
+                    onClick={() => handleRegenerate(prompt)}       
                     className="p-2 bg-purple-100 text-purple-600 hover:bg-purple-200 rounded"
                     title="Regenerate"
                   >
@@ -143,7 +142,7 @@ export default function PromptHistoryPage() {
                     <Pencil size={18} />
                   </button>
                   <button
-                    onClick={() => handleDelete(prompt)}           // ✅ CHANGED
+                    onClick={() => handleDelete(prompt)}          
                     className="p-2 bg-red-100 text-red-600 hover:bg-red-200 rounded"
                     title="Delete"
                   >

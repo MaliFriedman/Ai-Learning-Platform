@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useUserStore } from "../stores/useUserStore";
+import { useUserStore } from "../../stores/useUserStore";
 import { useNavigate } from "react-router-dom";
-import UserManager from "./admin/UserManager";
-import CategoryManager from "./admin/CategoryManager";
-import PromptManager from "./admin/PromptManager";
+import UserManager from "./UserManager";
+import CategoryManager from "./CategoryManager";
+import PromptManager from "./PromptManager";
 import { LogOut } from "lucide-react";
 
 const TABS = ["Users", "Categories", "Prompts"] as const;

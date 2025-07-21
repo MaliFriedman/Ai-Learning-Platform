@@ -45,7 +45,7 @@ export const useUserStore = create<UserStore>((set) => {
       set({
         user,
         token,
-        isAdmin: user.isAdmin === true, // עדכון כאן
+        isAdmin: user.isAdmin === true, 
         isLoggedIn: true,
       });
       try {

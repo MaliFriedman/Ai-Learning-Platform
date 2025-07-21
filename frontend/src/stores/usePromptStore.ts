@@ -24,7 +24,6 @@ type PromptState = {
     loadPromptsBySubCategoryId: (subCategoryId: string) => Promise<void>;
 
     addPrompt: (prompt: string, subCategoryId: string, categoryId: string) => Promise<Prompt>;
-    // updatePrompt: (id: string, prompt: string, subCategoryId?: string) => Promise<void>;
     updatePrompt: ( id: string, prompt: string, subCategoryId: string, categoryId: string) => Promise<void>;
     deletePrompt: (id: string) => Promise<void>;
     regeneratePrompt: (id: string) => Promise<void>;

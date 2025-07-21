@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../api/user';
-import AuthFormField from '../components/AuthFormField';
-import { useUserStore } from '../stores/useUserStore';
+import { loginUser } from '../../api/user';
+import AuthFormField from '../../components/AuthFormField';
+import { useUserStore } from '../../stores/useUserStore';
 
 const Login = () => {
     const [name, setName] = useState('');

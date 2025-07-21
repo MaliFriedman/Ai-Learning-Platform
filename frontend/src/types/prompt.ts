@@ -6,6 +6,5 @@ export interface Prompt {
     category_id: string;
     sub_category_id: string;
     created_at: string;
-    // updated_at: string;
   }
   

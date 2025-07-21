@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { registerUser } from '../api/user';
-import { useUserStore } from '../stores/useUserStore';
-import AuthFormField from '../components/AuthFormField';
+import { registerUser } from '../../api/user';
+import { useUserStore } from '../../stores/useUserStore';
+import AuthFormField from '../../components/AuthFormField';
 
 const Register = () => {
   const [id, setId] = useState('');

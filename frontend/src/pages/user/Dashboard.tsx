@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "../stores/useUserStore";
+import { useUserStore } from "../../stores/useUserStore";
 
 export default function Dashboard() {
   const navigate = useNavigate();

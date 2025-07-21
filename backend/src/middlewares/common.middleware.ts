@@ -1,4 +1,3 @@
-// utils/validators/validateObjectIdParam.ts
 import { Request, Response, NextFunction } from "express";
 import ApiError from "../utils/errors/ApiError";
 import { isValidMongoId } from "../utils/validators/param.validators";

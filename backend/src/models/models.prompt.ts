@@ -2,7 +2,6 @@ import { Schema, model, Types } from "mongoose";
 
 
 export interface IPrompt {
-  // _id?: Types.ObjectId;
   user_id: string;
   category_id: string;
   sub_category_id: string;
@@ -12,7 +11,6 @@ export interface IPrompt {
 }
 
 const promptSchema = new Schema<IPrompt>({
-  // _id: { type: String, required: true },
   user_id: { type: String, required: true, ref: "User" },
   category_id: { type: String, required: true, ref: "Category" },
   sub_category_id: { type: String, required: true, ref: "SubCategory" },

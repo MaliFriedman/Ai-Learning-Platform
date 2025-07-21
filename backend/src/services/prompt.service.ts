@@ -107,23 +107,6 @@ export default class PromptService {
 
 
 
-    // private async generateAIResponse(promptText: string, categoryName?: string, subCategoryName?: string): Promise<string> {
-    //     const contextIntro = `You are a learning assistant. The user wants to learn about ${categoryName || 'a topic'} → ${subCategoryName || ''}.`;
-    //     const fullPrompt = `${contextIntro}\n\n${promptText}`;
-
-    //     const aiResponse = await openai.chat.completions.create({
-    //         model: "gpt-3.5-turbo",
-    //         messages: [{ role: "user", content: fullPrompt }],
-    //     });
-
-    //     const responseText = aiResponse.choices?.[0]?.message?.content;
-    //     if (!responseText) {
-    //         throw new ApiError(500, "Failed to generate AI response.");
-    //     }
-
-    //     return responseText;
-    // }
-
     private async generateAIResponse(promptText: string, categoryName?: string, subCategoryName?: string): Promise<string> {
         const contextIntro = `You are a learning assistant. The user wants to learn about ${categoryName || 'a topic'} → ${subCategoryName || ''}.`;
         const fullPrompt = `${contextIntro}\n\n${promptText}`;

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useCategoryStore } from "../stores/categoryStore";
-import { useSubCategoryStore } from "../stores/subCategoryStore";
-import { usePromptStore } from "../stores/usePromptStore";
-import { useUserStore } from "../stores/useUserStore";
+import { useCategoryStore } from "../../stores/categoryStore";
+import { useSubCategoryStore } from "../../stores/subCategoryStore";
+import { usePromptStore } from "../../stores/usePromptStore";
+import { useUserStore } from "../../stores/useUserStore";
 
 export default function PromptPage() {
   const { categories, loadCategories } = useCategoryStore();

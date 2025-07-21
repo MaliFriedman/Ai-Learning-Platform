@@ -1,10 +1,10 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
-import PromptPage from "./pages/PromptPage";
-import PromptHistoryPage from "./pages/PromptHistoryPage";
-import AdminDashboardPage from "../src/pages/AdminDashboardPage";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import Dashboard from "./pages/user/Dashboard";
+import PromptPage from "./pages/user/PromptPage";
+import PromptHistoryPage from "./pages/shared pages/PromptHistoryPage";
+import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
 import { useUserStore } from "./stores/useUserStore";
 
 
