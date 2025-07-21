@@ -6,10 +6,11 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const token = localStorage.getItem("token");
+  const userString = localStorage.getItem("userData");
+  const user = userString ? JSON.parse(userString) : null;
 
-  if (token) {
-    config.headers.set("Authorization", `Bearer ${token}`);
+  if (user?.token) {
+    config.headers.set("Authorization", `Bearer ${user.token}`);
   }
 
   return config;

@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 
 export default class UserService {
 
-  async register(userData: { id: string; name: string; phone: string }): Promise<{ token: string; user: IUser }> {
+  async register(userData: { id: string; name: string; phone: string }): Promise<{ token: string; user: any }> {
 
     const existing = await UserModel.findOne({ _id: userData.id, phone: userData.phone });
     if (existing) {
@@ -32,28 +32,46 @@ export default class UserService {
       { expiresIn: "7d" }
     );
 
-    return { token, user: newUser.toObject() };
+        const isAdmin =
+      newUser.name === process.env.ADMIN_NAME &&
+      newUser.phone === process.env.ADMIN_PHONE;
+    return {
+      token,
+      user: {
+        ...newUser.toObject(),
+        isAdmin
+      }
+    };
   }
 
 
-  async login(name: string, phone: string): Promise<{ token: string; user: IUser }> {
+  async login(name: string, phone: string): Promise<{ token: string; user: any }> {
     const user = await UserModel.findOne({ name, phone });
     if (!user) {
       throw new ApiError(404, "User not found with this name and phone number");
     }
 
+    const isAdmin =
+      user.name === process.env.ADMIN_NAME &&
+      user.phone === process.env.ADMIN_PHONE;
     const token = jwt.sign(
       {
         userId: user._id,
         name: user.name,
         phone: user.phone,
+        isAdmin,
       },
       process.env.JWT_SECRET!,
       { expiresIn: "7d" }
     );
-    
-    return { token, user: user.toObject() };
-  }
+
+return {
+      token,
+      user: {
+        ...user.toObject(),
+        isAdmin
+      }
+    };  }
 
 
   async getAllUsers(): Promise<IUser[]> {

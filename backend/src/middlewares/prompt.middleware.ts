@@ -1,15 +1,22 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import ApiError from "../utils/errors/ApiError";
+import { AuthenticatedRequest } from "./auth.middleware"; // ודאי שזו הנתיב הנכון
 
-export const validatePrompt = (req: Request, res: Response, next: NextFunction) => {
-  const { prompt, user_id, category_id, sub_category_id } = req.body;
+export const validatePrompt = (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const { prompt, category_id, sub_category_id } = req.body;
+  const userId = req.user?.userId;
+  console.log("user from req.user:", req.user);
 
   if (!prompt || typeof prompt !== "string" || prompt.trim() === "") {
     return next(new ApiError(400, "Prompt text is required."));
   }
 
-  if (!user_id || typeof user_id !== "string" && ! /^\d{5,15}$/.test(user_id.trim())) {
+  if (!userId) {
     return next(new ApiError(400, "Valid userId is required."));
   }
 
@@ -23,6 +30,3 @@ export const validatePrompt = (req: Request, res: Response, next: NextFunction) 
 
   next();
 };
-
-
-  

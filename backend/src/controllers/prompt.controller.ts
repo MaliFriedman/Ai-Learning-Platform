@@ -1,11 +1,21 @@
 import { Request, Response, NextFunction } from "express";
 import PromptService from "../services/prompt.service";
+import { AuthenticatedRequest } from "../middlewares/auth.middleware";
+
 
 const promptService = new PromptService();
 
-export const createPrompt = async (req: Request, res: Response, next: NextFunction) => {
+
+export const createPrompt = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
-    const newPrompt = await promptService.createPrompt(req.body);
+    const user_id = req.user?.userId;
+
+    const dataWithUser = {
+      ...req.body,
+      user_id,
+    };
+
+    const newPrompt = await promptService.createPrompt(dataWithUser);
     res.status(201).json(newPrompt);
   } catch (err) {
     next(err);
@@ -30,9 +40,14 @@ export const getPromptById = async (req: Request, res: Response, next: NextFunct
   }
 };
 
-export const getPromptsByUserId = async (req: Request, res: Response, next: NextFunction) => {
+export const getPromptsByUserId = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
-    const prompts = await promptService.getPromptsByUserId(req.params.userId);
+    const userId = req.params.userId || req.user?.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized: userId not found' });
+    }
+
+    const prompts = await promptService.getPromptsByUserId(userId);
     res.json(prompts);
   } catch (err) {
     next(err);

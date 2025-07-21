@@ -2,7 +2,7 @@ import { Schema, model, Types } from "mongoose";
 
 
 export interface IPrompt {
-  _id?: Types.ObjectId;
+  // _id?: Types.ObjectId;
   user_id: string;
   category_id: string;
   sub_category_id: string;

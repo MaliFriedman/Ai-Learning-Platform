@@ -29,7 +29,7 @@ export const fetchPromptsBySubCategoryId = async (subCategoryId: string): Promis
 };
 
 export const createPrompt = async (
-  payload: { prompt: string; subCategoryId: string }
+  payload: { prompt: string; sub_category_id: string; category_id: string }
 ): Promise<Prompt> => {
   const { data } = await axios.post(PROMPT_URL, payload);
   return data;
@@ -37,7 +37,7 @@ export const createPrompt = async (
 
 export const updatePrompt = async (
   id: string,
-  payload: { prompt: string; subCategoryId?: string }
+  payload: { prompt: string; sub_category_id: string; category_id: string }
 ): Promise<Prompt> => {
   const { data } = await axios.put(`${PROMPT_URL}/${id}`, payload);
   return data;
@@ -50,5 +50,9 @@ export const deletePrompt = async (id: string): Promise<{ message: string }> => 
 
 export const regeneratePrompt = async (id: string): Promise<Prompt> => {
   const { data } = await axios.post(`${PROMPT_URL}/${id}/regenerate`);
+  return data;
+};
+export const fetchMyPrompts = async (): Promise<Prompt[]> => {
+  const { data } = await axios.get(`${PROMPT_URL}/history`);
   return data;
 };

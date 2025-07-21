@@ -1,8 +1,8 @@
 export interface SubCategory {
     _id: string;
     name: string;
-    categoryId: string;
-    createdAt?: string;
-    updatedAt?: string;
+    category_id: string;
+    created_at?: string;
+    updated_at?: string;
   }
   

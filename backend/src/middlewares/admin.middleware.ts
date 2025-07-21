@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { AuthenticatedRequest } from "./auth.middleware";
 
 const ADMIN_NAME = process.env.ADMIN_NAME;
 const ADMIN_PHONE = process.env.ADMIN_PHONE;
@@ -26,4 +27,18 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   } catch (err) {
     return res.status(401).json({ message: "Invalid token" });
   }
+};
+
+export const authorizeUserOrAdmin = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  console.log("DEBUG >> req.user:", req.user);
+  console.log("DEBUG >> req.params.userId:", req.params.userId);
+
+  const userIdFromToken = req.user?.userId
+  const userIdFromParams = req.params.userId;
+
+  if (userIdFromToken === userIdFromParams || req.user?.isAdmin) {
+    return next();
+  }
+
+  return res.status(403).json({ message: "Access denied" });
 };

@@ -35,7 +35,7 @@ export const validateLogin = (req: Request, res: Response, next: NextFunction) =
 };
 
 export const validateId = (req: Request, res: Response, next: NextFunction) => {
-  const id = req.params.id || req.body.id;
+  const id = req.params.userId || req.params.id; 
 
   if (!id || !isValidId(id)) {
     return next(new ApiError(400, "ID is required and must be a numeric string (5-15 digits)"));

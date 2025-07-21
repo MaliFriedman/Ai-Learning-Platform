@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
-import { fetchAllCategories } from "../api/category";
-import { fetchSubCategoriesByCategoryId } from "../api/subCategory.api";
-import { createPrompt } from "../api/prompts.api";
-
-type Category = {
-  _id: string;
-  name: string;
-};
-
-type SubCategory = {
-  _id: string;
-  name: string;
-  categoryId: string;
-};
+import { useCategoryStore } from "../stores/categoryStore";
+import { useSubCategoryStore } from "../stores/subCategoryStore";
+import { usePromptStore } from "../stores/usePromptStore";
+import { useUserStore } from "../stores/useUserStore";
 
 export default function PromptPage() {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
+  const { categories, loadCategories } = useCategoryStore();
+  
+
+
+  const {
+    subCategories,
+    loadSubCategoriesByCategory,
+  } = useSubCategoryStore();
+  const { addPrompt } = usePromptStore();
+  const { user } = useUserStore();
+
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [selectedSubCategoryId, setSelectedSubCategoryId] = useState("");
   const [promptText, setPromptText] = useState("");
@@ -25,38 +24,24 @@ export default function PromptPage() {
   const [response, setResponse] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Load categories once
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await fetchAllCategories();
-        setCategories(data);
-      } catch (err) {
-        console.error("Failed to load categories", err);
-      }
-    };
-    fetchCategories();
+    loadCategories();
   }, []);
 
   const handleCategoryChange = async (categoryId: string) => {
     setSelectedCategoryId(categoryId);
     setSelectedSubCategoryId("");
-    setSubCategories([]);
-
-    if (categoryId) {
-      try {
-        const data = await fetchSubCategoriesByCategoryId(categoryId);
-        setSubCategories(data);
-        console.log("Fetched sub categories:", data);
-      } catch (err) {
-        console.error("Failed to load sub-categories", err);
-      }
-    }
+    await loadSubCategoriesByCategory(categoryId);
   };
 
   const handleSubmit = async () => {
-    if (!promptText || !selectedSubCategoryId) {
+    if (!promptText || !selectedSubCategoryId || !selectedCategoryId) {
       setError("Please fill all fields.");
+      return;
+    }
+
+    if (!user?._id) {
+      setError("User not authenticated.");
       return;
     }
 
@@ -65,11 +50,12 @@ export default function PromptPage() {
     setResponse(null);
 
     try {
-      const data = await createPrompt({
-        subCategoryId: selectedSubCategoryId,
-        prompt: promptText,
-      });
-      setResponse(data.response);
+      const createdPrompt = await addPrompt(
+        promptText,
+        selectedSubCategoryId,
+        selectedCategoryId
+      );
+      setResponse(createdPrompt?.response || "Prompt submitted successfully.");
     } catch (err) {
       console.error("Failed to create prompt", err);
       setError("Failed to generate response.");

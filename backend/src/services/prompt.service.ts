@@ -3,6 +3,7 @@ import { CategoryModel } from "../models/models.category";
 import { SubCategoryModel } from "../models/models.subCategory";
 import ApiError from "../utils/errors/ApiError";
 import openai from "../utils/openai";
+import mongoose from "mongoose";
 
 export default class PromptService {
 
@@ -31,6 +32,7 @@ export default class PromptService {
         return prompts.map(p => p.toObject());
     }
 
+
     async getPromptById(id: string): Promise<IPrompt> {
         const prompt = await PromptModel.findById(id);
         if (!prompt) {
@@ -40,7 +42,7 @@ export default class PromptService {
     }
 
     async getPromptsByUserId(userId: string): Promise<IPrompt[]> {
-        const prompts = await PromptModel.find({ userId });
+        const prompts = await PromptModel.find({ user_id: userId });
         if (!prompts || prompts.length === 0) {
             throw new ApiError(404, "No prompts found for this user.");
         }
@@ -48,7 +50,7 @@ export default class PromptService {
     }
 
     async getPromptsByCategoryId(categoryId: string): Promise<IPrompt[]> {
-        const prompts = await PromptModel.find({ categoryId });
+        const prompts = await PromptModel.find({ category_id: categoryId });
         if (!prompts || prompts.length === 0) {
             throw new ApiError(404, "No prompts found for this category.");
         }
@@ -56,7 +58,7 @@ export default class PromptService {
     }
 
     async getPromptsBySubCategoryId(subCategoryId: string): Promise<IPrompt[]> {
-        const prompts = await PromptModel.find({ subCategoryId });
+        const prompts = await PromptModel.find({ sub_category_id: subCategoryId });
         if (!prompts || prompts.length === 0) {
             throw new ApiError(404, "No prompts found for this sub-category.");
         }
@@ -73,7 +75,14 @@ export default class PromptService {
 
 
     async deletePrompt(id: string): Promise<void> {
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw new ApiError(400, "Invalid prompt ID format.");
+        }
+
+
         const deleted = await PromptModel.findByIdAndDelete(id);
+
         if (!deleted) {
             throw new ApiError(404, "Prompt not found for deletion.");
         }
@@ -118,28 +127,27 @@ export default class PromptService {
     private async generateAIResponse(promptText: string, categoryName?: string, subCategoryName?: string): Promise<string> {
         const contextIntro = `You are a learning assistant. The user wants to learn about ${categoryName || 'a topic'} → ${subCategoryName || ''}.`;
         const fullPrompt = `${contextIntro}\n\n${promptText}`;
-    
-        console.log("Sending prompt to OpenAI:", fullPrompt); // ⬅️ לוג חשוב
-    
+
+        console.log("Sending prompt to OpenAI:", fullPrompt);
         try {
             const aiResponse = await openai.chat.completions.create({
                 model: "gpt-3.5-turbo",
                 messages: [{ role: "user", content: fullPrompt }],
             });
-    
+
             const responseText = aiResponse.choices?.[0]?.message?.content;
             if (!responseText) {
                 throw new ApiError(500, "Empty response from OpenAI.");
             }
-    
+
             return responseText;
-    
+
         } catch (error) {
-            console.error("Error from OpenAI:", error); // ⬅️ לוג חשוב!
+            console.error("Error from OpenAI:", error);
             throw new ApiError(500, "Failed to generate AI response.");
         }
     }
-    
+
     private async getCategoryNames(categoryId: string, subCategoryId: string): Promise<{ categoryName?: string, subCategoryName?: string }> {
         const [category, subCategory] = await Promise.all([
             CategoryModel.findById(categoryId),
